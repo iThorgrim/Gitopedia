@@ -2,7 +2,7 @@
 
 <img src="https://img.shields.io/badge/Gitopedia-CLI-blue?style=for-the-badge&logo=terminal&logoColor=white" alt="Gitopedia CLI" />
 
-Le framework Gitopedia inclut un puissant outil en ligne de commande qui permet d'automatiser diverses tâches de développement, telles que la génération de code, la gestion des modules, et d'autres opérations de maintenance.
+Le framework HMVC de Gitopedia inclut un puissant outil en ligne de commande qui permet d'automatiser diverses tâches de développement, telles que la génération de code, la gestion des modules, et d'autres opérations de maintenance.
 
 > **💡 Astuce :** Utilisez le CLI pour gagner du temps lors du développement. L'automatisation de la génération de code vous permet d'éviter les erreurs et de maintenir une structure cohérente dans votre application.
 
