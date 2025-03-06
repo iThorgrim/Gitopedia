@@ -39,10 +39,10 @@ class HomeController extends Controller
     public function index(): string
     {
         // Utiliser la méthode viewWithLayout pour générer la page complète en une seule étape
-        // - Premier paramètre : nom de la vue ('home' → home.php dans le dossier Views du module)
+        // - Premier paramètre : nom de la vue ('index' → index.php dans le dossier Views du module)
         // - Deuxième paramètre : nom du layout à utiliser ('layout' → layout.php dans templates partagés)
         // - Troisième paramètre : tableau de variables à passer à la vue et au layout
-        return $this->viewWithLayout('home', 'layout', [
+        return $this->viewWithLayout('index', 'layout', [
             'title' => 'Accueil - Gitopedia' // Définit le titre de la page
         ]);
     }
