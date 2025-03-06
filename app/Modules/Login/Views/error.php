@@ -1,0 +1,1 @@
+<h1><?= $message ?? 'Une erreur interne est survenue.' ?></h1>
