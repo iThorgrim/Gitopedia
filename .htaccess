@@ -1,0 +1,35 @@
+# -----------------------------------------------------------------------------
+# .htaccess (dossier racine) - Redirection vers le dossier public
+# -----------------------------------------------------------------------------
+#
+# Ce fichier de configuration Apache se trouve à la racine du projet et sert à 
+# rediriger toutes les requêtes vers le dossier public/, qui est le seul dossier
+# accessible directement par les visiteurs.
+#
+# Cette approche est fondamentale pour la sécurité de l'application car elle :
+# - Empêche l'accès direct aux fichiers de configuration et aux classes PHP
+# - Cache la structure réelle des dossiers de l'application
+# - Crée un point d'entrée unique via le dossier public
+#
+# Le mod_rewrite est utilisé pour effectuer cette redirection sans que
+# l'utilisateur n'ait besoin de spécifier explicitement le dossier public/.
+
+# Vérifier que le module mod_rewrite d'Apache est disponible
+<IfModule mod_rewrite.c>
+    # Activer le moteur de réécriture d'URL
+    RewriteEngine On
+    
+    # Rediriger les requêtes à la racine vers le dossier public/
+    # [L] signifie "Last" - aucune autre règle ne sera traitée si celle-ci correspond
+    RewriteRule ^$ public/ [L]
+    
+    # Rediriger toutes les autres requêtes vers le dossier public/
+    # (.*) capture toute l'URL demandée pour la réutiliser dans la destination
+    # La règle ajoute public/ devant l'URL capturée
+    RewriteRule (.*) public/$1 [L]
+</IfModule>
+
+# Note : Si mod_rewrite n'est pas disponible, les requêtes iront directement
+# à leur destination d'origine, ce qui pourrait exposer des fichiers sensibles.
+# Il est donc fortement recommandé de vérifier que mod_rewrite est bien activé
+# sur le serveur de production.

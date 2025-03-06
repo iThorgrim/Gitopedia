@@ -1,0 +1,115 @@
+# -----------------------------------------------------------------------------
+# .htaccess (dossier public) - Configuration du Front Controller et optimisations
+# -----------------------------------------------------------------------------
+#
+# Ce fichier de configuration Apache se trouve dans le dossier public/ et remplit
+# plusieurs fonctions essentielles :
+#
+# 1. Implémentation du pattern "Front Controller" qui dirige toutes les requêtes 
+#    non-fichier vers index.php
+# 2. Configuration des règles de sécurité de base
+# 3. Optimisation des performances par compression et mise en cache
+# 4. Configuration de l'encodage et des en-têtes CORS
+#
+# Ce fichier est crucial pour le bon fonctionnement du framework HMVC en assurant
+# que les URLs propres sont correctement traitées par le routeur de l'application.
+
+# ==============================================================================
+# SECTION 1 : RÉÉCRITURE D'URL (FRONT CONTROLLER)
+# ==============================================================================
+
+# Vérifier que le module mod_rewrite d'Apache est disponible
+<IfModule mod_rewrite.c>
+    # Activer le moteur de réécriture d'URL
+    RewriteEngine On
+
+    # ---------------------------------------------------------------------
+    # Redirection HTTPS (commentée par défaut)
+    # ---------------------------------------------------------------------
+    # Ces règles forcent toutes les requêtes à utiliser HTTPS
+    # Décommentez ces lignes en production pour activer la redirection SSL
+    # 
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # ---------------------------------------------------------------------
+    # Règles du Front Controller
+    # ---------------------------------------------------------------------
+    # Ces conditions et règles permettent d'implémenter le pattern Front Controller
+    # en redirigeant toutes les requêtes non-fichier/non-dossier vers index.php
+    
+    # Ne pas appliquer la règle si la requête correspond à un fichier existant
+    RewriteCond %{REQUEST_FILENAME} !-f
+    
+    # Ne pas appliquer la règle si la requête correspond à un dossier existant
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Rediriger toutes les autres requêtes vers index.php
+    # QSA = Query String Append (ajoute les paramètres GET existants)
+    # L = Last rule (arrêter le traitement des règles si celle-ci correspond)
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# ==============================================================================
+# SECTION 2 : SÉCURITÉ DE BASE
+# ==============================================================================
+
+# Désactiver la navigation dans les dossiers (directory listing)
+# Cette option empêche Apache d'afficher le contenu des dossiers qui n'ont pas
+# de fichier index.php ou index.html, réduisant ainsi l'exposition des fichiers
+Options -Indexes
+
+# ==============================================================================
+# SECTION 3 : ENCODAGE ET EN-TÊTES
+# ==============================================================================
+
+# Définir l'encodage UTF-8 comme charset par défaut pour tous les fichiers texte
+# Garantit une gestion cohérente des caractères internationaux
+AddDefaultCharset UTF-8
+
+# Configuration CORS (Cross-Origin Resource Sharing)
+# Permet à d'autres domaines d'accéder aux ressources de ce site
+# "*" autorise tous les domaines - à restreindre en production
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    
+    # Options supplémentaires CORS possibles (commentées)
+    # Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    # Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
+# ==============================================================================
+# SECTION 4 : OPTIMISATIONS DE PERFORMANCE
+# ==============================================================================
+
+# Compression Gzip des fichiers texte
+# Réduit considérablement la taille des fichiers envoyés au navigateur
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/javascript application/json
+</IfModule>
+
+# Configuration de la mise en cache côté client
+# Définit combien de temps les navigateurs peuvent garder des fichiers en cache
+<IfModule mod_expires.c>
+    # Activer la fonctionnalité d'expiration de contenu
+    ExpiresActive On
+    
+    # Images - mise en cache longue (1 an)
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    
+    # Ressources modifiées plus fréquemment - mise en cache moyenne (1 mois)
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    
+    # Favicon - mise en cache longue
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Configuration supplémentaire possible (commentée)
+    # ExpiresByType text/html "access plus 1 day"  # Pages HTML
+</IfModule>
