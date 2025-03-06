@@ -1,0 +1,120 @@
+{
+    // Version du fichier launch.json
+    "version": "0.0.1",
+    
+    // Tableau des configurations de débogage
+    "configurations": [
+        {
+            // Configuration pour déboguer PHP avec Xdebug
+            "name": "Gitopedia: Debug avec Xdebug",
+            "type": "php",
+            "request": "launch",
+            
+            // Le script à exécuter (point d'entrée de l'application)
+            "port": 9003,
+            
+            // Paramètres supplémentaires pour le débogueur
+            "log": true,
+            "pathMappings": {
+                "/var/www/Gitopedia": "${workspaceFolder}"
+            }
+        },
+        
+        // Configuration pour déboguer avec Chrome (frontend)
+        {
+            "name": "Gitopedia: Chrome Frontend",
+            "type": "chrome",
+            "request": "launch",
+            
+            // URL de votre application
+            "url": "http://localhost",
+            
+            // Répertoire racine du projet pour les fichiers web
+            "webRoot": "${workspaceFolder}/public",
+            
+            // Activer les sourcemaps pour un débogage plus précis
+            "sourceMaps": true,
+            
+            // Attendre que Chrome se connecte avant de démarrer
+            "sourceMapPathOverrides": {
+                "webpack:///./~/*": "${webRoot}/node_modules/*",
+                "webpack:///./*": "${webRoot}/*",
+                "webpack:///*": "*"
+            }
+        },
+        
+        // Configuration pour lancer un script PHP spécifique (utile pour les scripts CLI)
+        {
+            "name": "Gitopedia: Script PHP",
+            "type": "php",
+            "request": "launch",
+            
+            // Le script à exécuter
+            "program": "${file}",
+            
+            // Arguments de ligne de commande à passer au script
+            "args": [],
+            
+            // Répertoire de travail pour l'exécution
+            "cwd": "${workspaceFolder}",
+            
+            // Variables d'environnement à définir
+            "env": {
+                "APP_ENV": "development"
+            },
+            
+            // Port pour Xdebug
+            "port": 9003,
+            
+            // Mappages de chemins pour le débogage
+            "pathMappings": {
+                "/var/www/Gitopedia": "${workspaceFolder}"
+            }
+        },
+        
+        // Configuration pour déboguer les tests unitaires
+        {
+            "name": "Gitopedia: Tests Unitaires",
+            "type": "php",
+            "request": "launch",
+            
+            // Exécuter les tests avec PHPUnit
+            "program": "${workspaceFolder}/vendor/bin/phpunit",
+            
+            // Arguments à passer à PHPUnit
+            "args": [
+                "--configuration",
+                "${workspaceFolder}/phpunit.xml"
+            ],
+            
+            // Répertoire de travail pour l'exécution
+            "cwd": "${workspaceFolder}",
+            
+            // Port pour Xdebug
+            "port": 9003
+        },
+        
+        // Configuration pour écouter les connexions de débogage
+        {
+            "name": "Gitopedia: Listen for Xdebug",
+            "type": "php",
+            "request": "launch",
+            
+            // Port sur lequel écouter
+            "port": 9003,
+            
+            // Mappages de chemins
+            "pathMappings": {
+                "/var/www/Gitopedia": "${workspaceFolder}"
+            }
+        }
+    ],
+    
+    // Configurations composées pour exécuter plusieurs configurations simultanément
+    "compounds": [
+        {
+            "name": "Gitopedia: Full Stack",
+            "configurations": ["Gitopedia: Debug avec Xdebug", "Gitopedia: Chrome Frontend"]
+        }
+    ]
+}
