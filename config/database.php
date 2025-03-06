@@ -48,7 +48,7 @@ define('DB_NAME', 'gitopedia');
  * Cet utilisateur doit disposer des privilèges appropriés pour les
  * opérations que l'application doit effectuer (SELECT, INSERT, etc.).
  */
-define('DB_USER', 'test');
+define('DB_USER', 'root');
 
 /**
  * Mot de passe pour la connexion
@@ -56,7 +56,7 @@ define('DB_USER', 'test');
  * Utilisé avec DB_USER pour l'authentification au serveur de base de données.
  * IMPORTANT : En production, utiliser un mot de passe fort et unique.
  */
-define('DB_PASS', 'test');
+define('DB_PASS', '');
 
 // -----------------------------------------------------------------------------
 // Configuration avancée de la base de données

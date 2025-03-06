@@ -1,0 +1,3 @@
+<body>
+    <?= $news["content"] ?>
+</body>
