@@ -441,8 +441,11 @@ class Application
             'path' => $path
         ];
         
-        // Charger les routes du module (ne peuvent pas être autoloadées car ce sont des fichiers d'inclusion)
+        // Charger les routes du module
         $this->loadModuleRoutes($name, $path);
+
+        // Charger les services du module
+        $this->loadModuleServices($name, $path);
         
         return $this;
     }
@@ -517,6 +520,19 @@ class Application
             
             // Charger les routes en incluant le fichier
             require $routerFile;
+        }
+    }
+
+    private function loadModuleServices(string $moduleName, string $modulePath): void
+    {
+        $servicesFile = $modulePath . '/services.php';
+        
+        if (file_exists($servicesFile)) {
+            $registerServices = require $servicesFile;
+            
+            if (is_callable($registerServices)) {
+                $registerServices();
+            }
         }
     }
     
