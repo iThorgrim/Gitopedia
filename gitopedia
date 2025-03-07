@@ -15,6 +15,8 @@
  *   php gitopedia help
  */
 
+use App\CLI\CommandRunner;
+
 // Définir le chemin racine du projet
 define('ROOT_PATH', __DIR__);
 
@@ -37,7 +39,7 @@ foreach (glob(ROOT_PATH . '/app/CLI/*.php') as $file) {
 }
 
 // Initialiser et exécuter le CommandRunner
-$runner = new App\CLI\CommandRunner();
+$runner = new CommandRunner();
 $exitCode = $runner->run($argv);
 
 // Retourner le code de sortie au shell
