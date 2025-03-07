@@ -372,10 +372,7 @@ class Application
             'path' => $path
         ];
         
-        // Charger les contrôleurs du module
-        $this->loadModuleControllers($name, $path);
-        
-        // Charger les routes du module
+        // Charger les routes du module (ne peuvent pas être autoloadées car ce sont des fichiers d'inclusion)
         $this->loadModuleRoutes($name, $path);
         
         return $this;
