@@ -102,6 +102,15 @@ require_once ROOT_PATH . '/config/database.php';
  */
 $app = new App\Core\Application();
 
+/**
+ * Initialiser les services de l'application
+ * 
+ * Cette étape enregistre tous les services définis dans services.php
+ * auprès du container d'injection de dépendances.
+ */
+$initServices = require_once ROOT_PATH . '/app/services.php';
+$initServices();
+
 // -----------------------------------------------------------------------------
 // CONFIGURATION DE BASE
 // -----------------------------------------------------------------------------
